@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+//REST controller til håndtering af cykelhold ('teams')
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/teams")
@@ -16,18 +18,19 @@ public class TeamsRestController {
 
     TeamsRepository teamsRepository;
 
+    //Constructor injection af teamsRepository
     public TeamsRestController(TeamsRepository teamsRepository) {
         this.teamsRepository = teamsRepository;
     }
 
-    //TODO: returnere et hold med de respektive ryttere (GET)
+    //Find alle cykelhold i 'teams' tabellen
     @GetMapping
     ResponseEntity<List<Team>> getAllTeams(){
         List<Team> allTeams = teamsRepository.findAll();
         return new ResponseEntity<>(allTeams, HttpStatus.OK);
     }
 
-    //TODO: returnere et hold med de respektive ryttere (GET)
+    //Find ét bestemt cykelhold i 'teams' tabellen
     @GetMapping("/{id}")
     ResponseEntity<Team> getOneTeam(@PathVariable("id") Long id){
         if(teamsRepository.findById(id).isPresent()){

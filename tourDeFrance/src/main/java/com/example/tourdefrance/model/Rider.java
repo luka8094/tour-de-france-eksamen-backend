@@ -1,7 +1,6 @@
 package com.example.tourdefrance.model;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -29,7 +28,7 @@ public class Rider {
     Country country;
 
     // det samlet antal point en enkelt rytter har samlet
-    int totalPoints;
+    double sprintTime;
 
     //Flere ryttere kan knyttes til et hold (team)
     @JsonIgnore
@@ -73,12 +72,12 @@ public class Rider {
         this.country = country;
     }
 
-    public int getTotalPoints() {
-        return totalPoints;
+    public double getSprintTime() {
+        return sprintTime;
     }
 
-    public void setTotalPoints(int totalPoints) {
-        this.totalPoints = totalPoints;
+    public void setSprintTime(double totalPoints) {
+        this.sprintTime = totalPoints;
     }
 
     public Team getTeam() {

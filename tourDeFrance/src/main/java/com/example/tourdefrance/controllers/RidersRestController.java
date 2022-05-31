@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//REST controller til håndtering af ryttere ('riders')
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/riders")
@@ -16,17 +17,19 @@ public class RidersRestController {
 
     RidersRepository ridersRepository;
 
+    //Constructor injection af ridersRepository
     public RidersRestController(RidersRepository ridersRepository) {
         this.ridersRepository = ridersRepository;
     }
 
-    //TODO: returnere alle ryttere (GET)
+    //Find alle ryttere i 'riders' tabellen
     @GetMapping
     ResponseEntity<List<Rider>> getAllRiders(){
         List<Rider> allRiders = ridersRepository.findAll();
         return new ResponseEntity<>(allRiders, HttpStatus.OK);
     }
 
+    //Find en bestemt rytter fra 'tabellen'
     @GetMapping("/{id}")
     ResponseEntity<Rider> getOneRider(@PathVariable("id") long id){
         if(ridersRepository.findById(id).isPresent()){
@@ -36,14 +39,14 @@ public class RidersRestController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    //TODO: opret en rytter (POST)
+    //Opret en rytter i 'riders' tabellen
     @PostMapping
     ResponseEntity<Rider> createRider(@RequestBody Rider rider){
         ridersRepository.save(rider);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    //TODO: opdatere en rytter (PUT)
+    //Opdatere en rytter i 'riders' tabellen
     @PutMapping("/{id}")
     ResponseEntity<Rider> updateRider(@PathVariable("id") long id, @RequestBody Rider rider){
         Rider storedRider = ridersRepository.getById(id);
@@ -51,13 +54,13 @@ public class RidersRestController {
             storedRider.setFirstName(rider.getFirstName());
             storedRider.setLastName(rider.getLastName());
             storedRider.setCountry(rider.getCountry());
-            storedRider.setTotalPoints(rider.getTotalPoints());
+            storedRider.setSprintTime(rider.getSprintTime());
         }
         ridersRepository.save(storedRider);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //TODO: slet en rytter (DELETE)
+    //Slet en rytter i 'riders' tabellen
     @DeleteMapping("/{id}")
     ResponseEntity<Rider> deleteRider(@PathVariable("id") long id){
         Rider storedRider = ridersRepository.getById(id);

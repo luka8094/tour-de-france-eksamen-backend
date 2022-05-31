@@ -9,13 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 //Klasse til at fylde data ude med indledende data
 @Configuration
@@ -35,17 +30,17 @@ public class preloadData implements CommandLineRunner {
 
         //Kilde reference til opsætningen inspireret ved : https://stackoverflow.com/questions/10257981/read-text-file-into-an-array
         BufferedReader preparedData = new BufferedReader(new FileReader(Paths.get("src/main/resources/static","tourDeFranceDataCSV.txt").toString()));
-        String temporaryHolder = "";
+        String temporaryString = "";
 
-        while((temporaryHolder = preparedData.readLine()) != null) {
-            if (temporaryHolder.contains("0")) {
+        while((temporaryString = preparedData.readLine()) != null) {
+            if (temporaryString.contains("0")) {
                 Team team = new Team();
-                team.setTeamName(temporaryHolder.replace("0", "").replace(";", "").trim());
+                team.setTeamName(temporaryString.replace("0", "").replace(";", "").trim());
                 System.out.println(team.getTeamName());
                 teamsRepository.save(team);
             }
-            if (!temporaryHolder.contains("0")) {
-                String[] newRiderData = temporaryHolder.split(";");
+            if (!temporaryString.contains("0")) {
+                String[] newRiderData = temporaryString.split(";");
                 Rider newRider = new Rider();
                 newRider.setLastName(newRiderData[0]);
                 newRider.setFirstName(newRiderData[1].trim());
